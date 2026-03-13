@@ -68,8 +68,8 @@ python multi_classifier_medicalnet.py
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/0xKrishnaAI/healthcare_xynapse_krishnamgupta.git
-cd healthcare_xynapse_krishnamgupta
+git clone https://github.com/0xKrishnaAI/healthcare_ai_neuroassist.git
+cd healthcare_ai_neuroassist
 
 # 2. Install dependencies
 pip install -r requirements.txt
