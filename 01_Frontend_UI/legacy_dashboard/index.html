@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroDx – BrainScan AI | Alzheimer's Detection</title>
+
+    <!-- Fonts: Inter for high readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons: FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <div class="app-wrapper">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar glass" id="sidebar">
+            <div class="logo-area">
+                <div class="brain-icon-wrapper">
+                    <i class="fa-solid fa-brain brain-pulse"></i>
+                </div>
+                <h2>NeuroDx</h2>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="reports">
+                    <i class="fa-solid fa-file-medical"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="records">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>Records</span>
+                </a>
+                <a href="#" class="nav-item alert-item" data-tab="sos">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>SOS Protocol</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar">
+                    <img src="https://ui-avatars.com/api/?name=Dr+Smith&background=007bff&color=fff" alt="Dr. Smith">
+                </div>
+                <div class="user-info">
+                    <span class="name">Dr. A. Smith</span>
+                    <span class="role">Chief Neurologist</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- Mobile Header (Visible only on mobile) -->
+            <div class="mobile-header glass">
+                <div class="logo-area-mobile">
+                    <i class="fa-solid fa-brain"></i> NeuroDx
+                </div>
+                <button id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+            </div>
+
+            <!-- View: Dashboard -->
+            <div id="dashboard-view" class="view-section active">
+                <header class="page-header">
+                    <h1>Dashboard</h1>
+                    <span class="date-badge"><i class="fa-regular fa-calendar"></i> Today, Oct 24</span>
+                </header>
+
+                <div class="dashboard-grid">
+
+                    <!-- Left Column: Visualization -->
+                    <div class="col-left">
+                        <!-- 3D Brain Card -->
+                        <div class="card glass visual-card">
+                            <div class="card-header">
+                                <h3>3D Brain Visualization</h3>
+                                <div class="controls">
+                                    <button class="icon-btn" onclick="brainViewer.rotate('left')" title="Rotate Left"><i
+                                            class="fa-solid fa-rotate-left"></i></button>
+                                    <button class="icon-btn" onclick="brainViewer.toggleAutoRotate()"
+                                        title="Pause/Play"><i class="fa-solid fa-play"></i></button>
+                                    <button class="icon-btn" onclick="brainViewer.rotate('right')"
+                                        title="Rotate Right"><i class="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            </div>
+                            <div id="brain3d-container">
+                                <!-- Three.js Canvas Injected Here -->
+                            </div>
+                            <div class="status-overlay">
+                                <span class="badge live-badge"><span class="dot"></span> Live View</span>
+                            </div>
+                        </div>
+
+                        <!-- Slice Previews -->
+                        <div class="slices-wrapper">
+                            <div class="slice-card glass">
+                                <span class="slice-label">Axial</span>
+                                <div class="slice-placeholder"></div>
+                            </div>
+                            <div class="slice-card glass">
+                                <span class="slice-label">Sagittal</span>
+                                <div class="slice-placeholder"></div>
+                            </div>
+                            <div class="slice-card glass">
+                                <span class="slice-label">Coronal</span>
+                                <div class="slice-placeholder"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Action & Results -->
+                    <div class="col-right">
+
+                        <!-- Upload & Simulation Zone -->
+                        <div class="card glass interaction-card">
+                            <h3>AI Diagnostics</h3>
+
+                            <!-- Drop Zone -->
+                            <div id="upload-zone" class="upload-zone">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <p>Drag & Drop <strong>.nii</strong> MRI files here</p>
+                                <button class="btn-primary-outline"
+                                    onclick="document.getElementById('file-input').click()">Browse Files</button>
+                                <input type="file" id="file-input" hidden accept=".nii,.nii.gz">
+                            </div>
+
+                            <!-- Progress State (Hidden initially) -->
+                            <div id="progress-container" class="progress-wrapper hidden">
+                                <div class="progress-header">
+                                    <span id="progress-label">Initializing...</span>
+                                    <span id="progress-percent">0%</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div id="progress-bar" class="progress-fill"></div>
+                                </div>
+                                <ul class="task-steps">
+                                    <li id="task1-step" class="pending"><i class="fa-solid fa-circle-check"></i> Task 1:
+                                        Preprocessing</li>
+                                    <li id="task2-step" class="pending"><i class="fa-solid fa-circle-check"></i> Task 2:
+                                        Binary Class.</li>
+                                    <li id="task3-step" class="pending"><i class="fa-solid fa-circle-check"></i> Task 3:
+                                        Multi-Class</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Results Panel (Hidden initially) -->
+                        <div id="results-panel" class="card glass results-card hidden">
+                            <div class="card-header">
+                                <h3>Analysis Report</h3>
+                                <span class="badge completed">Completed</span>
+                            </div>
+
+                            <div class="diagnosis-display">
+                                <div id="diagnosis-ring" class="diagnosis-ring">
+                                    <div class="inner-circle">
+                                        <span id="confidence-score">--%</span>
+                                        <span id="diagnosis-label">--</span>
+                                    </div>
+                                    <svg class="ring-svg" viewBox="0 0 100 100">
+                                        <circle class="ring-track" cx="50" cy="50" r="45"></circle>
+                                        <circle id="ring-progress" class="ring-fill" cx="50" cy="50" r="45"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="biomarkers">
+                                <div class="biomarker">
+                                    <div class="bio-info">
+                                        <span>Brain Atrophy</span>
+                                        <span id="atrophy-val">--%</span>
+                                    </div>
+                                    <div class="bio-track">
+                                        <div id="atrophy-bar" class="bio-fill"></div>
+                                    </div>
+                                </div>
+                                <div class="biomarker">
+                                    <div class="bio-info">
+                                        <span>Amyloid Load</span>
+                                        <span id="amyloid-val">--%</span>
+                                    </div>
+                                    <div class="bio-track">
+                                        <div id="amyloid-bar" class="bio-fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="actions">
+                                <button class="btn-primary" onclick="window.print()">Export Report</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- View: Reports -->
+            <div id="reports-view" class="view-section">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- View: SOS -->
+            <div id="sos-view" class="view-section">
+                <div class="sos-wrapper">
+                    <button class="sos-btn-large">
+                        <i class="fa-solid fa-bell"></i>
+                        <span>TRIGGER EMERGENCY PROTOCOL</span>
+                    </button>
+                    <p class="sos-desc">This will alert the on-call neurologist and emergency services.</p>
+                </div>
+            </div>
+
+            <!-- View: Settings (Placeholder) -->
+            <div id="settings-view" class="view-section">
+                <div class="card glass">
+                    <h3>System Settings</h3>
+                    <p>Configuration options here...</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/brain-viewer.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
