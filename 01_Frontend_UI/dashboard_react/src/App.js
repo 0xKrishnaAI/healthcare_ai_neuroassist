@@ -20,6 +20,7 @@ const AnalyticsPage = lazy(() => import('./components/Pages/AnalyticsPage'));
 const SettingsPage = lazy(() => import('./components/Pages/SettingsPage'));
 const SOSPage = lazy(() => import('./components/Pages/SOSPage'));
 const ChatBot = lazy(() => import('./components/ChatBot'));
+const FloatingHospital = lazy(() => import('./components/FloatingHospital'));
 
 const PageLoader = () => (
     <div className="flex h-full w-full items-center justify-center bg-primary-bg/50 backdrop-blur-sm">
@@ -45,6 +46,8 @@ const Layout = () => {
                             <Outlet />
                             {/* FLOATING AI CHAT GLOBAL INJECTION */}
                             <ChatBot />
+                            {/* FLOATING HOSPITAL OVERLAY */}
+                            <FloatingHospital />
                         </Suspense>
                     </main>
                 </div>

@@ -175,6 +175,57 @@ export default function ScanUploadPage() {
     if (e.dataTransfer.files[0]) validateFile(e.dataTransfer.files[0]);
   }, [validateFile]);
 
+  const playAlertTone = useCallback((prediction) => {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      
+      const ctx = new AudioContext();
+      const isNormal = prediction === 'CN';
+      
+      const duration = 4.0; 
+      const now = ctx.currentTime;
+      
+      const osc = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      
+      osc.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      osc.type = isNormal ? 'sine' : 'triangle';
+      osc.frequency.setValueAtTime(isNormal ? 523.25 : 880, now);
+      
+      if (isNormal) {
+        // Softer dual chime pattern (Clear Result)
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.3, now + 0.1);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 1.2);
+        
+        gainNode.gain.setValueAtTime(0, now + 1.2);
+        gainNode.gain.linearRampToValueAtTime(0.3, now + 1.3);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 3.0);
+      } else {
+        // Sharp ICU-style repeating diagnostic alert (Abnormal)
+        for (let i = 0; i < 8; i++) {
+          const t = now + (i * 0.5); 
+          gainNode.gain.setValueAtTime(0, t);
+          gainNode.gain.linearRampToValueAtTime(0.2, t + 0.05); 
+          gainNode.gain.setValueAtTime(0.2, t + 0.2); 
+          gainNode.gain.linearRampToValueAtTime(0, t + 0.25); 
+        }
+      }
+      
+      osc.start(now);
+      osc.stop(now + duration);
+      
+      setTimeout(() => {
+        if (ctx.state === 'running') ctx.close();
+      }, (duration * 1000) + 100);
+    } catch (err) {
+      console.warn('Web Audio API notification failed to play:', err);
+    }
+  }, []);
+
   const runAnalysis = useCallback(async () => {
     if (!file || !selectedPatient || !isValid) return;
     setIsAnalyzing(true);
@@ -217,13 +268,17 @@ export default function ScanUploadPage() {
       setAnalysisStage('Formatting prediction & Grad-CAM results...');
       const data = await api.getScanResult(scanId);
       setResult(data);
+      
+      if (data?.prediction) {
+        playAlertTone(data.prediction);
+      }
     } catch (err) {
       console.error('Analysis error:', err);
       setResult({ error: err.message || 'Analysis pipeline failure' });
     } finally {
       setIsAnalyzing(false);
     }
-  }, [file, selectedPatient, isValid, selectedModel]);
+  }, [file, selectedPatient, isValid, selectedModel, playAlertTone]);
 
   const handleReview = useCallback(async (action) => {
     if (!result?.scan_id) return;
@@ -346,9 +401,9 @@ export default function ScanUploadPage() {
         </div>
 
         {/* RIGHT COLUMN: Visualization & Brain */}
-        <div className="p-6 rounded-xl bg-slate-900 border border-slate-700 shadow-lg min-h-[480px] flex flex-col items-center justify-center">
+        <div className="p-6 rounded-xl bg-slate-900 border border-slate-700 shadow-lg h-full flex flex-col items-center justify-center">
             <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 self-start w-full">Brain Spatial Render</h3>
-            <div className="h-[340px] w-full flex items-center justify-center bg-black/20 rounded-xl border border-white/5 overflow-hidden">
+            <div className="h-[520px] lg:h-[620px] w-full flex items-center justify-center bg-black/20 rounded-xl border border-white/5 overflow-hidden">
                 <BrainVisualization3D
                     brainRegions={result?.brain_regions || {}}
                     diagnosis={result?.prediction || null}

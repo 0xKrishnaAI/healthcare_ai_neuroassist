@@ -177,7 +177,7 @@ const NotificationsTab = memo(() => (
     </div>
 ));
 
-const AppearanceTab = memo(() => (
+const AppearanceTab = memo(({ language, setLanguage }) => (
     <div className="animate-fadeIn space-y-8 max-w-3xl">
         <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-6">
             <FaPalette className="text-emerald-400 text-xl" />
@@ -218,13 +218,49 @@ const AppearanceTab = memo(() => (
                 </button>
             </div>
         </div>
+
+        <div className="bg-black/20 p-6 rounded-3xl border border-white/5 shadow-inner mt-8">
+            <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] mb-6">Language / भाषा</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <button 
+                    onClick={() => setLanguage('en')}
+                    className={`p-6 rounded-2xl text-left relative overflow-hidden group border-2 transition-all ${language === 'en' ? 'bg-[#050d1a] border-cyan-500 shadow-[0_0_30px_rgba(0,198,255,0.15)] shadow-inner' : 'bg-black/20 border-white/5 hover:border-white/20'}`}
+                >
+                    {language === 'en' && (
+                        <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-black shadow-lg shadow-cyan-500/50">
+                            <FaCheck size={10} />
+                        </div>
+                    )}
+                    <p className="text-sm font-black text-white uppercase tracking-widest mb-2 relative z-10">English (EN)</p>
+                    <p className="text-[10px] text-cyan-100/60 font-bold uppercase tracking-widest leading-relaxed relative z-10">Default system language for all technical readouts.</p>
+                </button>
+
+                <button 
+                    onClick={() => setLanguage('hi')}
+                    className={`p-6 rounded-2xl text-left relative overflow-hidden group border-2 transition-all ${language === 'hi' ? 'bg-[#050d1a] border-cyan-500 shadow-[0_0_30px_rgba(0,198,255,0.15)] shadow-inner' : 'bg-black/20 border-white/5 hover:border-white/20'}`}
+                >
+                    {language === 'hi' && (
+                        <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-cyan-500 flex items-center justify-center text-black shadow-lg shadow-cyan-500/50">
+                            <FaCheck size={10} />
+                        </div>
+                    )}
+                    <p className="text-sm font-black text-white uppercase tracking-widest mb-2 relative z-10">हिन्दी (HI)</p>
+                    <p className="text-[10px] text-cyan-100/60 font-bold uppercase tracking-widest leading-relaxed relative z-10">Regional Indian language protocol for interface.</p>
+                </button>
+            </div>
+        </div>
     </div>
 ));
 
 const SettingsPage = () => {
-    const { state } = useApp();
+    const { state, dispatch } = useApp();
     const { user } = state.auth;
+    const { language } = state;
     const [activeTab, setActiveTab] = useState('profile');
+
+    const handleSetLanguage = (lang) => {
+        dispatch({ type: 'SET_LANGUAGE', payload: lang });
+    };
 
     return (
         <div className="animate-fadeIn space-y-8 max-w-7xl mx-auto pb-10">
@@ -246,7 +282,7 @@ const SettingsPage = () => {
                     {activeTab === 'profile' && <ProfileTab user={user} />}
                     {activeTab === 'security' && <SecurityTab />}
                     {activeTab === 'notifications' && <NotificationsTab />}
-                    {activeTab === 'appearance' && <AppearanceTab />}
+                    {activeTab === 'appearance' && <AppearanceTab language={language} setLanguage={handleSetLanguage} />}
                 </div>
             </div>
         </div>

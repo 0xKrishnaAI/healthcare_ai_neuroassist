@@ -1,14 +1,41 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
-import { FaCommentMedical, FaTimes, FaRobot, FaUser, FaPaperPlane, FaSpinner } from 'react-icons/fa';
+import { FaCommentMedical, FaTimes, FaRobot, FaUser, FaPaperPlane, FaSpinner, FaVolumeUp } from 'react-icons/fa';
+import { useApp } from '../context/AppContext';
 
 const ChatBot = () => {
+  const { state } = useApp();
+  const isHindi = state.language === 'hi';
+  
+  const defaultHello = isHindi 
+    ? 'नमस्ते, मैं NeuroAssist GenAI हूँ। आज मैं आपकी क्लिनिकल एनालिसिस या सिस्टम प्रश्नों में कैसे सहायता कर सकता हूँ?'
+    : 'Hello, I am the NeuroAssist GenAI. How can I assist you with clinical analysis or system queries today?';
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'ai', text: 'Hello, I am the NeuroAssist GenAI. How can I assist you with clinical analysis or system queries today?' }
+    { role: 'ai', text: defaultHello }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(null);
   const messagesEndRef = useRef(null);
+
+  // Sync opening message language dynamically if no chats yet
+  useEffect(() => {
+    if (messages.length === 1) {
+        setMessages([{ role: 'ai', text: defaultHello }]);
+    }
+  }, [isHindi]);
+
+  const speakText = (text, index) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = isHindi ? 'hi-IN' : 'en-US';
+      utterance.onend = () => setIsPlaying(null);
+      setIsPlaying(index);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -23,15 +50,43 @@ const ChatBot = () => {
     if (!input.trim()) return;
 
     const userMsg = input.trim();
+    const lowerInput = userMsg.toLowerCase();
+    
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setInput('');
     setIsTyping(true);
+
+    // Keyword Interception Logic
+    let instantReply = null;
+    if (lowerInput.includes('pain') || lowerInput.includes('दर्द')) {
+        instantReply = isHindi 
+            ? "ऐसा लगता है कि आपको दर्द का अनुभव हो रहा है। यदि यह बना रहता है तो कृपया किसी न्यूरोलॉजिस्ट से परामर्श लें।"
+            : "It seems you are experiencing pain. Please consult a neurologist if it persists.";
+    } else if (lowerInput.includes('headache') || lowerInput.includes('सिरदर्द')) {
+        instantReply = isHindi
+            ? "सिरदर्द के कई कारण हो सकते हैं। अपने लक्षणों पर नज़र रखें और किसी विशेषज्ञ से सलाह लें।"
+            : "Headaches can have multiple causes. Track your symptoms and consult a specialist.";
+    } else if (lowerInput.includes('memory') || lowerInput.includes('याददाश्त')) {
+        instantReply = isHindi
+            ? "याददाश्त कम होना न्यूरोलॉजिकल समस्याओं का संकेत हो सकता है। मूल्यांकन पर विचार करें।"
+            : "Memory loss could be a sign of neurological issues. Consider an evaluation.";
+    }
+
+    if (instantReply) {
+        setTimeout(() => {
+            setMessages(prev => [...prev, { role: 'ai', text: instantReply }]);
+            setIsTyping(false);
+        }, 800);
+        return;
+    }
 
     try {
       const apiKey = process.env.REACT_APP_GENAI_API_KEY || "AIzaSyCd2qy-3oacliYB0hMjBXkx1KkRZtx6Mqw";
       
       const promptContext = messages.map(m => `${m.role === 'ai' ? 'NeuroAssist' : 'User'}: ${m.text}`).join('\n');
-      const prompt = `You are NeuroAssist GenAI, a highly intelligent and professional medical AI assistant specialized in Alzheimer's and Neurological analysis. Keep your responses concise (under 4 sentences if possible), analytical, and professional. 
+      const langRule = isHindi ? "\nCRITICAL: You MUST reply in Hindi (हिन्दी) language." : "";
+      
+      const prompt = `You are NeuroAssist GenAI, a highly intelligent and professional medical AI assistant specialized in Alzheimer's and Neurological analysis. Keep your responses concise (under 4 sentences if possible), analytical, and professional.${langRule}
       
 Context:
 ${promptContext}
@@ -106,8 +161,17 @@ NeuroAssist:`;
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-1 ${msg.role === 'user' ? 'bg-purple-500/20 text-purple-400' : 'bg-cyan-500/20 text-cyan-400'}`}>
                      {msg.role === 'user' ? <FaUser size={10} /> : <FaRobot size={10} />}
                   </div>
-                  <div className={`p-3 rounded-2xl max-w-[75%] text-xs leading-relaxed ${msg.role === 'user' ? 'bg-purple-600 text-white rounded-tr-none' : 'bg-black/60 border border-white/5 text-white/90 rounded-tl-none'}`}>
+                  <div className={`relative p-3 rounded-2xl max-w-[75%] text-xs leading-relaxed group/msg ${msg.role === 'user' ? 'bg-purple-600 text-white rounded-tr-none' : 'bg-black/60 border border-white/5 text-white/90 rounded-tl-none pr-8'}`}>
                      {msg.text}
+                     {msg.role === 'ai' && (
+                         <button 
+                            onClick={() => speakText(msg.text, idx)}
+                            className={`absolute right-2 bottom-2 w-5 h-5 rounded-full flex items-center justify-center transition-all ${isPlaying === idx ? 'bg-cyan-500 text-black animate-pulse' : 'bg-white/5 text-cyan-400 opacity-0 group-hover/msg:opacity-100 hover:bg-cyan-500/20'}`}
+                            title="Read Aloud"
+                         >
+                            <FaVolumeUp size={10} />
+                         </button>
+                     )}
                   </div>
                </div>
             ))}

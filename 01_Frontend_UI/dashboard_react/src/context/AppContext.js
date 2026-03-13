@@ -22,6 +22,7 @@ const initialState = {
         user: JSON.parse(localStorage.getItem('na_user') || 'null'),
         isLoading: true
     },
+    language: (typeof window !== 'undefined' ? localStorage.getItem('language') : null) || 'en',
     notifications: [],
     isSidebarOpen: true,
     isProcessing: false,
@@ -37,6 +38,9 @@ const appReducer = (state, action) => {
         case 'SET_THEME':
             if (typeof window !== 'undefined') localStorage.setItem('theme', action.payload);
             return { ...state, theme: action.payload };
+        case 'SET_LANGUAGE':
+            if (typeof window !== 'undefined') localStorage.setItem('language', action.payload);
+            return { ...state, language: action.payload };
         case 'TOGGLE_SIDEBAR':
             return { ...state, isSidebarOpen: !state.isSidebarOpen };
         case 'SET_PROCESSING':
