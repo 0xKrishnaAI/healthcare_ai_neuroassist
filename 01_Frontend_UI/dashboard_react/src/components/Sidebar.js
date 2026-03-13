@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { 
   FaHome, FaBrain, FaUsers, FaHistory, 
   FaChartBar, FaCog, FaBell, FaSignOutAlt, 
-  FaWaveSquare 
+  FaWaveSquare, FaExclamationTriangle 
 } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
 
@@ -19,6 +19,7 @@ const Sidebar = () => {
     { path: '/dashboard/history', label: 'Assessment Logs', icon: FaHistory },
     { path: '/dashboard/analytics', label: 'System Analytics', icon: FaChartBar },
     { path: '/dashboard/settings', label: 'Settings', icon: FaCog },
+    { path: '/dashboard/sos', label: 'SOS Emergency', icon: FaExclamationTriangle, isError: true },
   ];
 
   const handleLogout = () => {
@@ -86,19 +87,23 @@ const Sidebar = () => {
                 className={({ isActive }) => `
                   flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-300 group
                   ${isActive
-                    ? 'bg-cyan-500 text-black font-bold shadow-lg shadow-cyan-500/20'
-                    : 'text-text-secondary hover:bg-white/5 hover:text-white'
+                    ? (link.isError ? 'bg-red-500 text-black font-bold shadow-lg shadow-red-500/20' : 'bg-cyan-500 text-black font-bold shadow-lg shadow-cyan-500/20')
+                    : (link.isError ? 'text-red-400 hover:bg-red-500/10 hover:text-red-300' : 'text-text-secondary hover:bg-white/5 hover:text-white')
                   }
                 `}
                 title={!state.isSidebarOpen ? link.label : ""}
               >
-                <Icon className={`text-xl transition-transform group-hover:scale-110 ${!state.isSidebarOpen ? 'mx-auto' : ''}`} />
-                {state.isSidebarOpen && (
-                  <span className="text-sm tracking-wide">{link.label}</span>
-                )}
-                {/* Active Glow Dot */}
-                {state.isSidebarOpen && (
-                   <div className={`ml-auto w-1 h-1 rounded-full bg-black opacity-0 transition-opacity`} />
+                {({ isActive }) => (
+                  <>
+                    <Icon className={`text-xl transition-transform group-hover:scale-110 ${!state.isSidebarOpen ? 'mx-auto' : ''}`} />
+                    {state.isSidebarOpen && (
+                      <span className={`text-sm tracking-wide ${link.isError && !isActive ? 'font-bold' : ''}`}>{link.label}</span>
+                    )}
+                    {/* Active Glow Dot */}
+                    {state.isSidebarOpen && (
+                       <div className={`ml-auto w-1 h-1 rounded-full bg-black opacity-0 transition-opacity`} />
+                    )}
+                  </>
                 )}
               </NavLink>
             );

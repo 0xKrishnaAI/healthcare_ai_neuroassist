@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Body
 from sqlalchemy.orm import Session
 from typing import Optional
 from datetime import datetime
@@ -15,7 +15,7 @@ from ml.gradcam_engine import generate_brain_heatmap_slices
 router = APIRouter(prefix="/api/scan", tags=["scans"])
 
 UPLOAD_DIR = "uploads"
-SCAN_DIR = os.path.join(UPLOAD_DIR, "scans")
+SCAN_DIR = os.path.join(UPLOAD_DIR, "mri_scans")
 GRADCAM_DIR = os.path.join(UPLOAD_DIR, "gradcam")
 os.makedirs(SCAN_DIR, exist_ok=True)
 os.makedirs(GRADCAM_DIR, exist_ok=True)
@@ -25,7 +25,6 @@ os.makedirs(GRADCAM_DIR, exist_ok=True)
 async def upload_scan(
     file: UploadFile = File(...),
     patient_id: int = Form(...),
-    model_type: str = Form("multiclass"),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
@@ -47,7 +46,7 @@ async def upload_scan(
     # Generate unique scan ID
     scan_id_str = f"SCN-{uuid.uuid4().hex[:6].upper()}"
 
-    # Save file to uploads/scans/{scan_id}/
+    # Save file to uploads/mri_scans/{scan_id}/
     scan_dir = os.path.join(SCAN_DIR, scan_id_str)
     os.makedirs(scan_dir, exist_ok=True)
 
@@ -62,6 +61,39 @@ async def upload_scan(
     with open(file_path, "wb") as buffer:
         buffer.write(content)
 
+    new_scan = models.Scan(
+        scan_id_string=scan_id_str,
+        patient_id=patient.id,
+        filename=safe_filename,
+        original_filename=file.filename,
+        status="pending",
+    )
+
+    db.add(new_scan)
+    db.commit()
+    db.refresh(new_scan)
+
+    return {"scan_id": scan_id_str, "status": "uploaded"}
+
+
+@router.post("/analyze")
+def analyze_scan(
+    scan_id: str = Form(...),
+    model_type: str = Form("multiclass"),
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    if current_user.role != models.RoleEnum.doctor:
+        raise HTTPException(status_code=403, detail="Only doctors can analyze scans")
+
+    scan = db.query(models.Scan).filter(models.Scan.scan_id_string == scan_id).first()
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+
+    file_path = os.path.join(SCAN_DIR, scan.scan_id_string, scan.filename)
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail="Scan file missing")
+
     # --- Run deterministic inference ---
     inference_result = run_inference(file_path, model_type)
 
@@ -71,7 +103,7 @@ async def upload_scan(
     gradcam_result = None
     try:
         gradcam_result = generate_brain_heatmap_slices(
-            scan_id=scan_id_str,
+            scan_id=scan.scan_id_string,
             prediction_class=pred_idx,
             brain_regions=inference_result["brain_regions"],
             output_dir=GRADCAM_DIR,
@@ -88,37 +120,44 @@ async def upload_scan(
         gradcam_coronal = gradcam_result["slice_paths"].get("coronal")
         gradcam_sagittal = gradcam_result["slice_paths"].get("sagittal")
 
-    # --- Save scan to database ---
+    # --- Update scan in database ---
     biomarkers = inference_result["biomarkers"]
-    new_scan = models.Scan(
-        scan_id_string=scan_id_str,
-        patient_id=patient.id,
-        filename=safe_filename,
-        original_filename=file.filename,
-        file_hash=inference_result.get("file_hash", ""),
-        model_used=model_type,
-        prediction=inference_result["prediction"],
-        conf_cn=inference_result["confidence_cn"],
-        conf_mci=inference_result["confidence_mci"],
-        conf_ad=inference_result["confidence_ad"],
-        risk_score=inference_result["risk_score"],
-        urgency=inference_result["urgency"],
-        processing_time=inference_result["processing_time"],
-        biomarker_hippocampal=biomarkers["hippocampal_atrophy"],
-        biomarker_amyloid=biomarkers["amyloid_plaque_load"],
-        biomarker_ventricle=biomarkers["ventricle_enlargement"],
-        gradcam_axial=gradcam_axial,
-        gradcam_coronal=gradcam_coronal,
-        gradcam_sagittal=gradcam_sagittal,
-        brain_regions_json=json.dumps(inference_result["brain_regions"]),
-        status="pending",
-    )
+    
+    scan.file_hash = inference_result.get("file_hash", "")
+    scan.model_used = model_type
+    scan.prediction = inference_result["prediction"]
+    scan.conf_cn = inference_result["confidence_cn"]
+    scan.conf_mci = inference_result["confidence_mci"]
+    scan.conf_ad = inference_result["confidence_ad"]
+    scan.risk_score = inference_result["risk_score"]
+    scan.urgency = inference_result["urgency"]
+    scan.processing_time = inference_result["processing_time"]
+    scan.biomarker_hippocampal = biomarkers["hippocampal_atrophy"]
+    scan.biomarker_amyloid = biomarkers["amyloid_plaque_load"]
+    scan.biomarker_ventricle = biomarkers["ventricle_enlargement"]
+    scan.gradcam_axial = gradcam_axial
+    scan.gradcam_coronal = gradcam_coronal
+    scan.gradcam_sagittal = gradcam_sagittal
+    scan.brain_regions_json = json.dumps(inference_result["brain_regions"])
+    scan.status = "analyzed"
 
-    db.add(new_scan)
     db.commit()
-    db.refresh(new_scan)
+    db.refresh(scan)
 
-    return _format_scan_response(new_scan)
+    return {"scan_id": scan.scan_id_string, "status": "analyzed"}
+
+
+@router.get("/result/{scan_id}")
+def get_scan_result(
+    scan_id: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    scan = db.query(models.Scan).filter(models.Scan.scan_id_string == scan_id).first()
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan not found")
+
+    return _format_scan_response(scan)
 
 
 @router.get("/history")

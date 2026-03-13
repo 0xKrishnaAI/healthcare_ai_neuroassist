@@ -52,6 +52,24 @@ export const api = {
     return resData;
   },
 
+  analyzeScan: async (formData) => {
+    const response = await fetch(`${BASE_URL}/api/scan/analyze`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('na_token') || ''}` },
+      body: formData,
+    });
+    const resData = await response.json();
+    if (!response.ok) throw new Error(resData.detail || 'Analysis failed');
+    return resData;
+  },
+
+  getScanResult: async (scanId) => {
+    const response = await fetch(`${BASE_URL}/api/scan/result/${scanId}`, { headers: getHeaders() });
+    const resData = await response.json();
+    if (!response.ok) throw new Error(resData.detail || 'Failed to get result');
+    return resData;
+  },
+
   getScanHistory: async (params = {}) => {
     const response = await fetch(`${BASE_URL}/api/scan/history?${new URLSearchParams(params)}`, {
       headers: getHeaders(),

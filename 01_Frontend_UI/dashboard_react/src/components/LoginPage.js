@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import api from '../services/api';
 import { FaBrain, FaEye, FaEyeSlash, FaChartLine, FaShieldAlt, FaUserMd } from 'react-icons/fa';
+
+const BackgroundNodes = memo(() => (
+  <>
+    {[...Array(8)].map((_, i) => (
+      <div key={i} className="absolute rounded-full pointer-events-none"
+        style={{
+          width: 6 + Math.random() * 12, height: 6 + Math.random() * 12,
+          left: `${10 + Math.random() * 80}%`, top: `${10 + Math.random() * 80}%`,
+          background: i % 2 === 0 ? 'rgba(0,198,255,0.15)' : 'rgba(123,47,190,0.15)',
+          filter: `blur(${2 + Math.random() * 4}px)`,
+          animation: `float ${5 + Math.random() * 5}s infinite ease-in-out`,
+          animationDelay: `${Math.random() * 3}s`,
+        }} />
+    ))}
+  </>
+));
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -56,18 +72,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex" style={{ background: '#050d1a' }}>
-      {/* Floating background nodes */}
-      {[...Array(8)].map((_, i) => (
-        <div key={i} className="absolute rounded-full pointer-events-none"
-          style={{
-            width: 6 + Math.random() * 12, height: 6 + Math.random() * 12,
-            left: `${10 + Math.random() * 80}%`, top: `${10 + Math.random() * 80}%`,
-            background: i % 2 === 0 ? 'rgba(0,198,255,0.15)' : 'rgba(123,47,190,0.15)',
-            filter: `blur(${2 + Math.random() * 4}px)`,
-            animation: `float ${5 + Math.random() * 5}s infinite ease-in-out`,
-            animationDelay: `${Math.random() * 3}s`,
-          }} />
-      ))}
+      <BackgroundNodes />
 
       {/* LEFT — Marketing Panel */}
       <div className="hidden lg:flex flex-col justify-center items-center w-1/2 p-12 relative overflow-hidden">

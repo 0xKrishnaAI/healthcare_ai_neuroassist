@@ -14,7 +14,7 @@ from routes import auth_routes, patient_routes, scan_routes
 models.Base.metadata.create_all(bind=engine)
 
 # Ensure uploads directories exist
-os.makedirs("uploads/scans", exist_ok=True)
+os.makedirs("uploads/mri_scans", exist_ok=True)
 os.makedirs("uploads/gradcam", exist_ok=True)
 
 app = FastAPI(
