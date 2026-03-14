@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Line } from 'recharts';
-import { FaBrain, FaCheckCircle, FaExclamationTriangle, FaCheck, FaFlag, FaPen, FaChevronDown } from 'react-icons/fa';
+import { FaBrain, FaCheckCircle, FaCheck, FaFlag, FaPen, FaChevronDown } from 'react-icons/fa';
 
 const DIAG_COLORS = { CN: '#00E5A0', MCI: '#FFD166', AD: '#FF5E5E' };
 const DIAG_LABELS = { CN: 'Cognitively Normal', MCI: 'Mild Cognitive Impairment', AD: 'Alzheimer\'s Disease' };

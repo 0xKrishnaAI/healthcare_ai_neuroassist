@@ -252,7 +252,7 @@ export default function BrainVisualization3D({ brainRegions = {}, diagnosis = nu
 
       if (intersects.length > 0) {
         const hit = intersects[0].object;
-        const { label, score, regionName } = hit.userData;
+        const { label, score } = hit.userData;
         const status = getStatusText(score);
         setTooltip({
           x: mouseRef.current.x,
@@ -330,11 +330,6 @@ export default function BrainVisualization3D({ brainRegions = {}, diagnosis = nu
     }
   }, [brainRegions, isLoading, buildBrain]);
 
-  const diagnosisColors = {
-    CN: '#00E5A0',
-    MCI: '#FFD166',
-    AD: '#FF5E5E',
-  };
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '500px', borderRadius: '16px', overflow: 'hidden', background: 'radial-gradient(ellipse at center, #0d2044 0%, #040d1a 100%)' }}>
