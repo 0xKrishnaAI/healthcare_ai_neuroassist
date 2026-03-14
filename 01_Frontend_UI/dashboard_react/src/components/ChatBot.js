@@ -24,6 +24,7 @@ const ChatBot = () => {
     if (messages.length === 1) {
         setMessages([{ role: 'ai', text: defaultHello }]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHindi]);
 
   const speakText = (text, index) => {

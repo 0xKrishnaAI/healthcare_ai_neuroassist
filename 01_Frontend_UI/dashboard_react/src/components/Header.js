@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaSearch, FaBell, FaUserCircle, FaCog, FaSignOutAlt, FaTimes, FaBars, FaChevronDown } from 'react-icons/fa';
+import { FaSearch, FaBell, FaCog, FaSignOutAlt, FaBars, FaChevronDown } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../context/AppContext';
 

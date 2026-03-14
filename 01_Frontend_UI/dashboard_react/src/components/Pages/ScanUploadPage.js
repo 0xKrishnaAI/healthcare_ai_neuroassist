@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, memo, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import api from '../../services/api';
 import BrainVisualization3D from '../BrainVisualization3D';
@@ -74,8 +73,6 @@ const GradCamViewer = memo(({ result, activeSlice, setActiveSlice, diagColors })
 export default function ScanUploadPage() {
   const { state } = useApp();
   const user = state.auth?.user;
-  const navigate = useNavigate();
-
   // State Management
   const [patients, setPatients] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
@@ -96,11 +93,10 @@ export default function ScanUploadPage() {
 
   const [selectedModel, setSelectedModel] = useState('multiclass');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisStage, setAnalysisStage] = useState('');
+  const [, setAnalysisStage] = useState('');
   const [pipelineStages, setPipelineStages] = useState([]);
   const [result, setResult] = useState(null);
 
-  const [reviewAction, setReviewAction] = useState(null);
   const [overrideDiagnosis, setOverrideDiagnosis] = useState('CN');
   const [overrideNotes, setOverrideNotes] = useState('');
   const [showOverride, setShowOverride] = useState(false);

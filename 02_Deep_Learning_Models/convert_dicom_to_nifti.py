@@ -91,7 +91,7 @@ def main():
     subjects_df = subjects_df.rename(columns={'Subject': 'subject_id', 'Group': 'label'})
     
     print(f"Total unique subjects: {len(subjects_df)}")
-    print(f"\nLabel distribution:")
+    print("\nLabel distribution:")
     print(subjects_df['label'].value_counts())
     
     # Convert each subject
@@ -153,13 +153,13 @@ def main():
     successful.to_csv(CLINICAL_OUTPUT, index=False)
     print(f"\nSaved {CLINICAL_OUTPUT} with {len(successful)} subjects")
     
-    print(f"\nLabel distribution in clinical.csv:")
+    print("\nLabel distribution in clinical.csv:")
     print(successful['label'].value_counts())
     
     print(f"\n{'=' * 60}")
     print("CONVERSION COMPLETE")
     print(f"{'=' * 60}")
-    print(f"\nNext step: Run 'python preprocess_engine.py' to preprocess the data")
+    print("\nNext step: Run 'python preprocess_engine.py' to preprocess the data")
 
 if __name__ == '__main__':
     main()

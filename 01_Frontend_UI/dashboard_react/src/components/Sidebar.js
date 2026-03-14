@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { 
   FaHome, FaBrain, FaUsers, FaHistory, 
   FaChartBar, FaCog, FaBell, FaSignOutAlt, 
@@ -8,7 +8,6 @@ import {
 import { useApp } from '../context/AppContext';
 
 const Sidebar = () => {
-  const navigate = useNavigate();
   const { state, dispatch } = useApp();
   const user = state.auth?.user;
 

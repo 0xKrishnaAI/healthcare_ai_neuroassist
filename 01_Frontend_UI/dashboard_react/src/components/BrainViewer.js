@@ -1,7 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useGLTF, Html } from '@react-three/drei';
-import * as THREE from 'three';
+import { Html } from '@react-three/drei';
 
 const BrainViewer = ({ result, isProcessing }) => {
     const group = useRef();

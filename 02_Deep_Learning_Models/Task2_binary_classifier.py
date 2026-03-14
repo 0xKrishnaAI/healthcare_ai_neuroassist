@@ -9,7 +9,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, models
-import torchvision.transforms.functional as TF
 from sklearn.metrics import accuracy_score, roc_auc_score, f1_score, precision_score, recall_score, confusion_matrix
 import matplotlib.pyplot as plt
 
@@ -97,8 +96,6 @@ class MRIDataset(Dataset):
                 mid_idx = img_np.shape[2] // 2
                 
                 # Check bounds
-                start_idx = max(0, mid_idx - 1)
-                end_idx = min(img_np.shape[2], mid_idx + 2)
                 
                 # Extract slices
                 slices = []

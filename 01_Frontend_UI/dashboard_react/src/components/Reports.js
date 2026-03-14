@@ -17,12 +17,6 @@ const METRICS_DATA = [
     { class: 'AD', precision: 56, recall: 67, f1: 56, support: 6 }
 ];
 
-const OVERALL_METRICS = [
-    { name: 'Balanced Accuracy', value: 72.41 },
-    { name: 'Macro F1-Score', value: 71.56 },
-    { name: 'AUC-ROC', value: 82.34 },
-    { name: 'Confidence Avg', value: 78.5 }
-];
 
 const CLASS_DISTRIBUTION = [
     { name: 'CN (Healthy)', value: 42, color: COLORS.CN },

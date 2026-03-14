@@ -1,0 +1,10 @@
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Dashboard.js: line 2, col 10, Warning - 'motion' is defined but never used. (no-unused-vars)
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Dashboard.js: line 4, col 35, Warning - 'FaStethoscope' is defined but never used. (no-unused-vars)
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Dashboard.js: line 5, col 32, Warning - 'FaExclamationTriangle' is defined but never used. (no-unused-vars)
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Dashboard.js: line 11, col 33, Warning - 'BarChart' is defined but never used. (no-unused-vars)
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Dashboard.js: line 11, col 43, Warning - 'Bar' is defined but never used. (no-unused-vars)
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Dashboard.js: line 11, col 48, Warning - 'Cell' is defined but never used. (no-unused-vars)
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Pages\PatientProfilePage.js: line 17, col 13, Warning - 'state' is assigned a value but never used. (no-unused-vars)
+C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\src\components\Pages\PatientsPage.js: line 11, col 13, Warning - 'state' is assigned a value but never used. (no-unused-vars)
+
+8 problems

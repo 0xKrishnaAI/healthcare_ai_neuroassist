@@ -11,7 +11,6 @@ No PyTorch, NiBabel, or OpenCV required — uses pure numpy + Pillow.
 import numpy as np
 import os
 import json
-from pathlib import Path
 
 
 def generate_brain_heatmap_slices(
@@ -264,7 +263,7 @@ if __name__ == "__main__":
         output_dir="uploads/gradcam",
     )
 
-    print(f"\nGenerated slice images:")
+    print("\nGenerated slice images:")
     for view, path in result["slice_paths"].items():
         exists = os.path.isfile(path)
         size_kb = os.path.getsize(path) / 1024 if exists else 0

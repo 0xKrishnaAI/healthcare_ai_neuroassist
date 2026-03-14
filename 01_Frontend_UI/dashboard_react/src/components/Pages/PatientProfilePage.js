@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useApp } from '../../context/AppContext';
 import api from '../../services/api';
 import { 
-  FaUser, FaEdit, FaHistory, FaBrain, 
-  FaFilePdf, FaChevronLeft, FaChevronRight, FaSpinner,
+  FaEdit, FaBrain, 
+  FaChevronLeft, FaChevronRight, FaSpinner,
   FaCalendarAlt, FaStethoscope
 } from 'react-icons/fa';
 import { 
-  LineChart, Line, XAxis, YAxis, Tooltip, 
+  XAxis, YAxis, Tooltip, 
   ResponsiveContainer, CartesianGrid, AreaChart, Area 
 } from 'recharts';
 
 const PatientProfilePage = () => {
     const { patientId } = useParams();
-    const { state } = useApp();
-    const { user } = state.auth;
     const navigate = useNavigate();
     
     const [patient, setPatient] = useState(null);

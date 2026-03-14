@@ -1,4 +1,3 @@
-from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 import models
 from auth import get_password_hash
@@ -91,7 +90,7 @@ def seed_db():
         db.refresh(p2)
         db.refresh(p3)
         db.refresh(p4)
-        print(f"Created 4 patients: Meera, Suresh, Lakshmi, Rajesh Kumar")
+        print("Created 4 patients: Meera, Suresh, Lakshmi, Rajesh Kumar")
 
         # Create Seed Scans with biomarker/gradcam data
         scan1_regions = {
@@ -148,9 +147,9 @@ def seed_db():
         print("Scans seeded successfully.")
         print(f"\n{'='*50}")
         print("Demo Credentials:")
-        print(f"  Doctor: doctor@neuroassist.ai / Demo@2024")
-        print(f"  Alt:    dr.smith@neuroassist.com / doctor123")
-        print(f"  Patient: meera@demo.com / patient123")
+        print("  Doctor: doctor@neuroassist.ai / Demo@2024")
+        print("  Alt:    dr.smith@neuroassist.com / doctor123")
+        print("  Patient: meera@demo.com / patient123")
         print(f"{'='*50}")
 
     finally:

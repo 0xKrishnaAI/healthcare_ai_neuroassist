@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { 
-  FaBrain, FaUsers, FaMicroscope, FaStethoscope, 
-  FaArrowRight, FaCheckCircle, FaExclamationTriangle,
+  FaBrain, FaUsers, FaMicroscope, 
+  FaArrowRight, FaCheckCircle,
   FaPlus, FaChartLine
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { 
+import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, 
-  Tooltip, ResponsiveContainer, BarChart, Bar, Cell 
+  Tooltip, ResponsiveContainer
 } from 'recharts';
 import { useApp } from '../context/AppContext';
 import api from '../services/api';

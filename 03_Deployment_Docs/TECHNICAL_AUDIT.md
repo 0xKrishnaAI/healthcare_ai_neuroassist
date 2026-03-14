@@ -1,7 +1,3 @@
-# ═══════════════════════════════════════════════════════════════════════════════
-#          NEURODX: PROJECT DEFENSE & TECHNICAL AUDIT
-#          IIT Ropar Hackathon 2026 - Healthcare AI Track
-# ═══════════════════════════════════════════════════════════════════════════════
 
 ## 1. FULL TECH STACK & LIBRARY ROLES
 

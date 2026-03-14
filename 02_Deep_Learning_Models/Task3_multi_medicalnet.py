@@ -16,7 +16,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, confusion_matrix, classification_report
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 
 # Import our MedicalNet model
@@ -238,18 +238,18 @@ def evaluate_model(model, test_loader, model_name="MedicalNet_Multi"):
     
     cm = confusion_matrix(all_labels, all_preds)
     
-    print(f"\n{'='*60}")
-    print(f"MedicalNet Multi-Class Classification Results")
-    print(f"{'='*60}")
+    print("\n" + '='*60)
+    print("MedicalNet Multi-Class Classification Results")
+    print('='*60)
     print(f"Accuracy:   {accuracy:.4f} ({accuracy*100:.2f}%)")
     print(f"F1 (macro): {f1_macro:.4f}")
     print(f"F1 (weighted): {f1_weighted:.4f}")
-    print(f"\nConfusion Matrix:")
-    print(f"            Pred CN  Pred MCI  Pred AD")
+    print("\nConfusion Matrix:")
+    print("            Pred CN  Pred MCI  Pred AD")
     for i, cls in enumerate(CLASS_NAMES):
         row = "  ".join([f"{cm[i][j]:^8}" for j in range(3)])
         print(f"Actual {cls}   {row}")
-    print(f"\nClassification Report:")
+    print("\nClassification Report:")
     print(classification_report(all_labels, all_preds, target_names=CLASS_NAMES, zero_division=0))
     print(f"{'='*60}\n")
     
@@ -283,7 +283,7 @@ def main():
     val_df = pd.read_csv('val.csv')
     test_df = pd.read_csv('test.csv')
     
-    print(f"\nDataset sizes:")
+    print("\nDataset sizes:")
     print(f"  Train: {len(train_df)} samples")
     print(f"  Val:   {len(val_df)} samples")
     print(f"  Test:  {len(test_df)} samples")

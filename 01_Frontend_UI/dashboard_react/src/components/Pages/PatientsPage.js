@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../../context/AppContext';
 import api from '../../services/api';
 import { 
   FaUserPlus, FaSearch, FaUser, 
-  FaCalendarAlt, FaChevronRight, FaSpinner 
+  FaChevronRight 
 } from 'react-icons/fa';
 
 const PatientsPage = () => {
-    const { state } = useApp();
-    const { user } = state.auth;
     const navigate = useNavigate();
     const [patients, setPatients] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

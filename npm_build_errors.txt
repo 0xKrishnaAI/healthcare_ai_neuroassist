@@ -1,0 +1,105 @@
+
+> neurodx-dashboard@2.0.0 build
+> react-scripts build
+
+(node:26792) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Creating an optimized production build...
+Compiled with warnings.
+
+Failed to parse source map from 'C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\node_modules\@mediapipe\tasks-vision\vision_bundle_mjs.js.map' file: Error: ENOENT: no such file or directory, open 'C:\Users\Krishna\eit\01_Frontend_UI\dashboard_react\node_modules\@mediapipe\tasks-vision\vision_bundle_mjs.js.map'
+
+[eslint] 
+src\App.js
+  Line 1:27:  'useEffect' is defined but never used  no-unused-vars
+
+src\components\BrainVisualization3D.jsx
+  Line 255:31:  'regionName' is assigned a value but never used       no-unused-vars
+  Line 333:9:   'diagnosisColors' is assigned a value but never used  no-unused-vars
+
+src\components\ChatBot.js
+  Line 27:6:  React Hook useEffect has missing dependencies: 'defaultHello' and 'messages.length'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+src\components\FloatingHospital.js
+  Line 66:8:  React Hook useEffect has a missing dependency: 'handleMouseMove'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src\components\Header.js
+  Line 3:28:  'FaUserCircle' is defined but never used  no-unused-vars
+  Line 3:63:  'FaTimes' is defined but never used       no-unused-vars
+
+src\components\LoginPage.js
+  Line 5:51:  'FaShieldAlt' is defined but never used  no-unused-vars
+
+src\components\Pages\AnalyticsPage.js
+  Line 1:23:   'useMemo' is defined but never used         no-unused-vars
+  Line 55:34:  'index' is assigned a value but never used  no-unused-vars
+
+src\components\Pages\PatientProfilePage.js
+  Line 6:3:    'FaUser' is defined but never used         no-unused-vars
+  Line 6:19:   'FaHistory' is defined but never used      no-unused-vars
+  Line 7:3:    'FaFilePdf' is defined but never used      no-unused-vars
+  Line 11:3:   'LineChart' is defined but never used      no-unused-vars
+  Line 11:14:  'Line' is defined but never used           no-unused-vars
+  Line 18:13:  'user' is assigned a value but never used  no-unused-vars
+
+src\components\Pages\PatientsPage.js
+  Line 7:3:    'FaCalendarAlt' is defined but never used  no-unused-vars
+  Line 7:34:   'FaSpinner' is defined but never used      no-unused-vars
+  Line 12:13:  'user' is assigned a value but never used  no-unused-vars
+
+src\components\Pages\ScanHistoryPage.js
+  Line 11:13:  'state' is assigned a value but never used  no-unused-vars
+
+src\components\Pages\ScanUploadPage.js
+  Line 77:9:    'navigate' is assigned a value but never used         no-unused-vars
+  Line 99:10:   'analysisStage' is assigned a value but never used    no-unused-vars
+  Line 103:10:  'reviewAction' is assigned a value but never used     no-unused-vars
+  Line 103:24:  'setReviewAction' is assigned a value but never used  no-unused-vars
+
+src\components\ScanUpload\AnalysisResults.jsx
+  Line 3:34:  'FaExclamationTriangle' is defined but never used  no-unused-vars
+
+src\components\Sidebar.js
+  Line 11:9:  'navigate' is assigned a value but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+File sizes after gzip:
+
+  187.82 kB  build\static\js\408.7fc43595.chunk.js
+  107.49 kB  build\static\js\main.632425ee.js
+  92.38 kB   build\static\js\243.db227b76.chunk.js
+  83.59 kB   build\static\js\21.15b9f810.chunk.js
+  13.37 kB   build\static\js\143.5670e5ce.chunk.js
+  12.93 kB   build\static\js\487.c983eda5.chunk.js
+  12.88 kB   build\static\js\191.2709a05f.chunk.js
+  12.73 kB   build\static\css\main.8a10b3be.css
+  9.17 kB    build\static\js\371.7a6abb71.chunk.js
+  4.18 kB    build\static\js\791.85d8b734.chunk.js
+  4.03 kB    build\static\js\98.d97dc12b.chunk.js
+  3.66 kB    build\static\js\574.c5609063.chunk.js
+  3.64 kB    build\static\js\33.3524def9.chunk.js
+  3.44 kB    build\static\js\807.c208038b.chunk.js
+  3.41 kB    build\static\js\879.40d47161.chunk.js
+  3.36 kB    build\static\js\230.a211819c.chunk.js
+  3.11 kB    build\static\js\777.e21d48d6.chunk.js
+  2.75 kB    build\static\js\659.216612dd.chunk.js
+  2.74 kB    build\static\js\781.23743f86.chunk.js
+  2.19 kB    build\static\js\862.2cfe6977.chunk.js
+  2.03 kB    build\static\js\172.35b77914.chunk.js
+  1.86 kB    build\static\js\245.9effd6a3.chunk.js
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+

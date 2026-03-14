@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
-from sklearn.metrics import accuracy_score, roc_auc_score, f1_score, precision_score, recall_score, confusion_matrix
+from sklearn.metrics import roc_auc_score, f1_score, precision_score, recall_score, confusion_matrix
 import matplotlib.pyplot as plt
 
 # Setup logging
@@ -201,7 +201,7 @@ def evaluate_model(model, test_loader):
     all_labels = []
     all_probs = [] # For AUC
     
-    print(f"\nEvaluating Multi-Class Model...")
+    print("\nEvaluating Multi-Class Model...")
     
     with torch.no_grad():
         for images, labels in tqdm(test_loader, desc="Testing"):
@@ -237,7 +237,7 @@ def evaluate_model(model, test_loader):
     recall = recall_score(all_labels, all_preds, average=None)
     cm = confusion_matrix(all_labels, all_preds)
     
-    print(f"\nMulti-Class Results:", flush=True)
+    print("\nMulti-Class Results:", flush=True)
     print(f"Balanced Accuracy: {bal_acc:.4f}", flush=True)
     print(f"AUC (Macro OvR): {auc:.4f}", flush=True)
     print(f"Macro F1-Score: {f1:.4f}", flush=True)
@@ -248,10 +248,6 @@ def evaluate_model(model, test_loader):
     # Tabular Report
     print("\n" + "="*50, flush=True)
     print("FINAL PREDICTION REPORT (TEST SET)", flush=True)
-    report_df = pd.DataFrame({
-        'Methods': ['CN' if l==0 else 'MCI' if l==1 else 'AD' for l in all_labels],
-        'Pred': ['CN' if p==0 else 'MCI' if p==1 else 'AD' for p in all_preds]
-    })
     # Just printing metrics is likely enough based on request "mention them separately"
     # But let's verify if we need detailed subject rows. The prompt said "Check the accuracy... mention them separately". 
     # This likely refers to specific metric breakdown (Recall per class, etc). 

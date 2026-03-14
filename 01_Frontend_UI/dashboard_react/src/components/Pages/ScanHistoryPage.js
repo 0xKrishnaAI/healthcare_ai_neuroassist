@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../../context/AppContext';
 import api from '../../services/api';
 import { 
   FaSearch, FaFilter, FaDownload, FaEye, 
@@ -8,7 +7,6 @@ import {
 } from 'react-icons/fa';
 
 const ScanHistoryPage = () => {
-    const { state } = useApp();
     const navigate = useNavigate();
     const [scans, setScans] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

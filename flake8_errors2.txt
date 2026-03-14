@@ -1,0 +1,2 @@
+c:\Users\Krishna\eit\backend\ml\inference.py:15:1: F401 'pathlib.Path' imported but unused
+c:\Users\Krishna\eit\backend\ml\inference.py:184:11: F541 f-string is missing placeholders

@@ -1,7 +1,5 @@
 import os
-import glob
 import logging
-import argparse
 import numpy as np
 import pandas as pd
 import SimpleITK as sitk
@@ -208,7 +206,7 @@ def process_single_mri(input_path, template_path):
     input_image_downsampled = sitk.Shrink(image, [shrink_factor] * image.GetDimension())
     mask_image_downsampled = sitk.Shrink(mask_image, [shrink_factor] * image.GetDimension())
     bias_corrector = sitk.N4BiasFieldCorrectionImageFilter()
-    bias_corrected_downsampled = bias_corrector.Execute(input_image_downsampled, mask_image_downsampled)
+    bias_corrector.Execute(input_image_downsampled, mask_image_downsampled)
     log_bias_field = bias_corrector.GetLogBiasFieldAsImage(image)
     corrected_image = sitk.Exp(log_bias_field) * image
     
@@ -223,7 +221,7 @@ def process_single_mri(input_path, template_path):
         registered_image = register_to_mni(brain_only, template_path)
     except Exception as e:
         # Fallback: Just valid brain extraction result
-        logger.warning(f"Registration failed for {input_path}, using native space: {e}")
+        logging.warning(f"Registration failed for {input_path}, using native space: {e}")
         registered_image = brain_only
 
     # Step 6: Tissue Segmentation (Extract GM)
@@ -407,7 +405,7 @@ def main():
         val_df.to_csv('val.csv', index=False)
         test_df.to_csv('test.csv', index=False)
         
-        print(f"\nSplits created:")
+        print("\nSplits created:")
         print(f"Train: {len(train_df)}")
         print(f"Val:   {len(val_df)}")
         print(f"Test:  {len(test_df)}")

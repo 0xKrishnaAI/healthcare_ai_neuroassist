@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Navigate } from 'react-router-dom';
 import { 
@@ -52,7 +52,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 const CustomTreemapNode = memo((props) => {
-    const { x, y, width, height, index, name, fill } = props;
+    const { x, y, width, height, name, fill } = props;
     if (width < 30 || height < 30) return null; // Don't render tiny nodes
     return (
         <g>

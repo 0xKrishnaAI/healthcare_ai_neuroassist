@@ -12,7 +12,6 @@ that is indistinguishable from real model output for demo purposes.
 import hashlib
 import os
 import numpy as np
-from pathlib import Path
 
 
 def _file_md5(file_path: str) -> str:
@@ -181,7 +180,7 @@ if __name__ == "__main__":
         print(f"Error: File not found: {fpath}")
         sys.exit(1)
 
-    print(f"\n=== NeuroAssist Inference Engine ===")
+    print("\n=== NeuroAssist Inference Engine ===")
     print(f"File:  {fpath}")
     print(f"Model: {mtype}")
     print(f"MD5:   {_file_md5(fpath)}")

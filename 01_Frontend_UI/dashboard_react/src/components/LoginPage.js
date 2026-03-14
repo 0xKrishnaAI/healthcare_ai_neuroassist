@@ -2,7 +2,7 @@ import React, { useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import api from '../services/api';
-import { FaBrain, FaEye, FaEyeSlash, FaChartLine, FaShieldAlt, FaUserMd } from 'react-icons/fa';
+import { FaBrain, FaEye, FaEyeSlash, FaChartLine, FaUserMd } from 'react-icons/fa';
 
 const BackgroundNodes = memo(() => (
   <>

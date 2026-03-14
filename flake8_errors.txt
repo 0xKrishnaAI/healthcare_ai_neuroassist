@@ -1,0 +1,40 @@
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task1_preprocess_engine.py:2:1: F401 'glob' imported but unused
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task1_preprocess_engine.py:4:1: F401 'argparse' imported but unused
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task1_preprocess_engine.py:211:5: F841 local variable 'bias_corrected_downsampled' is assigned to but never used
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task1_preprocess_engine.py:226:9: F821 undefined name 'logger'
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task1_preprocess_engine.py:410:15: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task2_binary_classifier.py:12:1: F401 'torchvision.transforms.functional as TF' imported but unused
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task2_binary_classifier.py:100:17: F841 local variable 'start_idx' is assigned to but never used
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task2_binary_classifier.py:101:17: F841 local variable 'end_idx' is assigned to but never used
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task2_binary_medicalnet.py:251:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task2_binary_medicalnet.py:258:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task2_binary_medicalnet.py:259:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task2_binary_medicalnet.py:302:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_classifier.py:11:1: F401 'sklearn.metrics.accuracy_score' imported but unused
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_classifier.py:204:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_classifier.py:240:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_classifier.py:251:5: F841 local variable 'report_df' is assigned to but never used
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_medicalnet.py:19:1: F401 'sklearn.metrics.precision_score' imported but unused
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_medicalnet.py:19:1: F401 'sklearn.metrics.recall_score' imported but unused
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_medicalnet.py:242:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_medicalnet.py:247:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_medicalnet.py:248:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_medicalnet.py:252:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task3_multi_medicalnet.py:286:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\Task4_hybrid_classifier.py:2:1: F401 'torch.nn' imported but unused
+c:\Users\Krishna\eit\02_Deep_Learning_Models\convert_dicom_to_nifti.py:94:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\convert_dicom_to_nifti.py:156:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\02_Deep_Learning_Models\convert_dicom_to_nifti.py:162:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\backend\ml\gradcam_engine.py:14:1: F401 'pathlib.Path' imported but unused
+c:\Users\Krishna\eit\backend\ml\gradcam_engine.py:267:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\backend\ml\inference.py:15:1: F401 'pathlib.Path' imported but unused
+c:\Users\Krishna\eit\backend\ml\inference.py:184:11: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\backend\routes\__init__.py:1:1: F401 'os' imported but unused
+c:\Users\Krishna\eit\backend\routes\patient_routes.py:3:1: F401 'typing.List' imported but unused
+c:\Users\Krishna\eit\backend\routes\scan_routes.py:1:1: F401 'fastapi.Body' imported but unused
+c:\Users\Krishna\eit\backend\routes\scan_routes.py:3:1: F401 'typing.Optional' imported but unused
+c:\Users\Krishna\eit\backend\seed.py:1:1: F401 'sqlalchemy.orm.Session' imported but unused
+c:\Users\Krishna\eit\backend\seed.py:94:15: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\backend\seed.py:151:15: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\backend\seed.py:152:15: F541 f-string is missing placeholders
+c:\Users\Krishna\eit\backend\seed.py:153:15: F541 f-string is missing placeholders
