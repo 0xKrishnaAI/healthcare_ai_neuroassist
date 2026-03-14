@@ -1,4 +1,4 @@
-# 🧠 NeuroDx: AI-Powered Neurological Disorder Detection, Classification, Assessment
+# 🧠 NeuroAssist: AI-Powered Neurological Disorder Detection, Classification, Assessment
 
 Deep learning system for T1-weighted MRI brain scans to detect and classify neurological conditions:
 - **CN** (Cognitively Normal) — Healthy brain function
@@ -6,7 +6,7 @@ Deep learning system for T1-weighted MRI brain scans to detect and classify neur
 - **AD** (Alzheimer's Disease) — Diagnosed dementia
 
 ## 🌐 Live Demo
-Experience the AI Dashboard live: [**Launch NeuroDx**](https://dashboard-react-pi-mauve.vercel.app)
+Experience the AI Dashboard live: [**Launch NeuroAssist**](https://dashboard-react-pi-mauve.vercel.app)
 
 ## 🎯 Performance (MedicalNet Transfer Learning)
 
@@ -121,7 +121,7 @@ python Task2_binary_classifier.py
 ```
 
 ## 🌐 Live Demo
-Experience the AI Dashboard live: [**Launch NeuroDx**](https://dashboard-react-pi-mauve.vercel.app)
+Experience the AI Dashboard live: [**Launch NeuroAssist**](https://dashboard-react-pi-mauve.vercel.app)
 
 ---
 

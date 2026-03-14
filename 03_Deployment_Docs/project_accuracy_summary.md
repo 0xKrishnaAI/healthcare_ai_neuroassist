@@ -1,4 +1,4 @@
-# NeuroDx Project Accuracy Summary
+# NeuroAssist Project Accuracy Summary
 ## MedicalNet Transfer Learning Results
 
 ---

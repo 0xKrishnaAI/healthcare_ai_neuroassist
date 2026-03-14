@@ -1,8 +1,8 @@
-# NeuroDx: Project Walkthrough
+# NeuroAssist: Project Walkthrough
 **Digital Neuropathology: Deep Learning for Alzheimer's Detection**
 
 ## 🚀 Project Overview
-NeuroDx is a complete end-to-end medical AI system designed to detect Alzheimer's Disease from MRI scans. It features a robust 7-stage preprocessing pipeline, 100% compliant deep learning models (`Simple3DCNN`), and a premium medical-grade dashboard.
+NeuroAssist is a complete end-to-end medical AI system designed to detect Alzheimer's Disease from MRI scans. It features a robust 7-stage preprocessing pipeline, 100% compliant deep learning models (`Simple3DCNN`), and a premium medical-grade dashboard.
 
 ---
 
@@ -26,7 +26,7 @@ NeuroDx is a complete end-to-end medical AI system designed to detect Alzheimer'
 - **Performance:** **39.68% Accuracy** (Better than random chance of 33%).
 - **Threshold:** 14/29 predictions met the 55% confidence requirement.
 
-### **Task 6: NeuroDx Dashboard UI** (✅ Complete)
+### **Task 6: NeuroAssist Dashboard UI** (✅ Complete)
 - **Tech Stack:** HTML5, CSS3 (Medical Glassmorphism), Vanilla JS, Three.js.
 - **Features:** 
     - **Interactive 3D Brain:** Real-time rotating model.
