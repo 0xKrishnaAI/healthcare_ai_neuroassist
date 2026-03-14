@@ -101,13 +101,13 @@ ${promptContext}
 User: ${userMsg}
 NeuroAssist:`;
 
-      // Upgraded to gemini-2.0-flash for latest GenAI capabilities
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      // Upgraded to gemini-2.5-flash-lite (Active Quota verified)
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.1, maxOutputTokens: 600 }
+          generationConfig: { temperature: 0.1, maxOutputTokens: 800 }
         })
       });
 
