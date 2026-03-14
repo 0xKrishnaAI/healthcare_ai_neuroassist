@@ -31,7 +31,7 @@ const PageLoader = () => (
 const Layout = () => {
     return (
         <div className="flex h-screen w-full bg-primary-bg overflow-hidden relative font-sans text-text-primary">
-            {/* Background Blobs (Decoration) - Reduced blur and optimized */}
+            {/* Background Blobs (Decoration) */}
             <div className="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[80px] pointer-events-none will-change-transform"></div>
             <div className="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none will-change-transform"></div>
 
@@ -44,14 +44,13 @@ const Layout = () => {
                     <main className="max-w-7xl mx-auto pb-10 min-h-[calc(100vh-140px)] w-full relative">
                         <Suspense fallback={<PageLoader />}>
                             <Outlet />
-                            {/* FLOATING AI CHAT GLOBAL INJECTION */}
-                            <ChatBot />
                         </Suspense>
                     </main>
                 </div>
             </div>
 
-            {/* FLOATING HOSPITAL OVERLAY (Layout Root) */}
+            {/* GLOBAL FLOATING ELEMENTS (Layout Root) */}
+            <ChatBot />
             <FloatingHospital />
         </div>
     );
@@ -97,4 +96,3 @@ function App() {
 }
 
 export default App;
-

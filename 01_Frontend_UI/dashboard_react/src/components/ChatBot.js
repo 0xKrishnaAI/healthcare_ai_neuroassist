@@ -24,8 +24,7 @@ const ChatBot = () => {
     if (messages.length === 1) {
         setMessages([{ role: 'ai', text: defaultHello }]);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHindi]);
+  }, [isHindi, defaultHello, messages.length]);
 
   const speakText = (text, index) => {
     if ('speechSynthesis' in window) {
@@ -57,7 +56,7 @@ const ChatBot = () => {
     setInput('');
     setIsTyping(true);
 
-    // Keyword Interception Logic
+    // Keyword Interception Logic (Enhanced)
     let instantReply = null;
     if (lowerInput.includes('pain') || lowerInput.includes('दर्द')) {
         instantReply = isHindi 
@@ -70,7 +69,15 @@ const ChatBot = () => {
     } else if (lowerInput.includes('memory') || lowerInput.includes('याददाश्त')) {
         instantReply = isHindi
             ? "याददाश्त कम होना न्यूरोलॉजिकल समस्याओं का संकेत हो सकता है। मूल्यांकन पर विचार करें।"
-            : "Memory loss could be a sign of neurological issues. Consider an evaluation.";
+            : "Memory loss could be a sign of neurological issues. Consider a clinical evaluation.";
+    } else if (lowerInput.includes('alzheimer') || lowerInput.includes('अल्जाइमर')) {
+        instantReply = isHindi
+            ? "अल्जाइमर रोग एक प्रगतिशील विकार है। हमारा सिस्टम एमआरआई विश्लेषण के माध्यम से जल्दी पता लगाने में मदद करता है।"
+            : "Alzheimer's is a progressive disorder. Our system helps in early detection via MRI structural analysis.";
+    } else if (lowerInput.includes('scan') || lowerInput.includes('स्कैन')) {
+        instantReply = isHindi
+            ? "आप विश्लेषण हब (Analysis Hub) में एमआरआई स्कैन अपलोड कर सकते हैं।"
+            : "You can upload MRI scans for analysis in the Analysis Hub section.";
     }
 
     if (instantReply) {
@@ -94,12 +101,13 @@ ${promptContext}
 User: ${userMsg}
 NeuroAssist:`;
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
+      // Upgraded to gemini-1.5-flash for better performance
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, maxOutputTokens: 300 }
+          generationConfig: { temperature: 0.2, maxOutputTokens: 500 }
         })
       });
 
@@ -107,8 +115,8 @@ NeuroAssist:`;
       
       let aiResponse = "I am processing your query. There appears to be a network delay.";
       if (data.error) {
-        aiResponse = `API Error: ${data.error.message}`;
-      } else if (data.candidates && data.candidates.length > 0) {
+        aiResponse = `AI Node Busy: ${data.error.message}`;
+      } else if (data.candidates && data.candidates[0].content) {
         aiResponse = data.candidates[0].content.parts[0].text;
       }
       
