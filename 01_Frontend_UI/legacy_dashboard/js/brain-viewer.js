@@ -1,5 +1,5 @@
 /**
- * NeuroDx - 3D Brain Viewer
+ * NeuroAssist - 3D Brain Viewer
  * Uses Three.js to render a interactive, stylized brain visualization.
  */
 

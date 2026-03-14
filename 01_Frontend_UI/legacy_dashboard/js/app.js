@@ -1,5 +1,5 @@
 /**
- * NeuroDx - BrainScan AI Dashboard Controller
+ * NeuroAssist - BrainScan AI Dashboard Controller
  * Handles UI interactions, simulating the 3-stage backend pipeline, and dynamic result rendering.
  */
 
