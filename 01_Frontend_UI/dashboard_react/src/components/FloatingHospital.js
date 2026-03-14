@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { FaHospitalUser, FaMapMarkerAlt, FaPhoneAlt, FaTimes, FaDirections } from 'react-icons/fa';
 import { useApp } from '../context/AppContext';
 
@@ -24,13 +24,14 @@ const FloatingHospital = () => {
     const dragRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    const [userLoc, setUserLoc] = useState(null);
 
-    const handleMouseDown = (e) => {
+    const handleMouseDown = useCallback((e) => {
         setIsDragging(true);
         setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
-    };
+    }, [position]);
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = useCallback((e) => {
         if (!isDragging) return;
         let newX = e.clientX - dragStart.x;
         let newY = e.clientY - dragStart.y;
@@ -45,11 +46,11 @@ const FloatingHospital = () => {
         if (newY < -maxH) newY = -maxH;
 
         setPosition({ x: newX, y: newY });
-    };
+    }, [isDragging, dragStart]);
 
-    const handleMouseUp = () => {
+    const handleMouseUp = useCallback(() => {
         setIsDragging(false);
-    };
+    }, []);
 
     useEffect(() => {
         if (isDragging) {
@@ -63,11 +64,29 @@ const FloatingHospital = () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDragging]);
+    }, [isDragging, handleMouseMove, handleMouseUp]);
+
+    // Real Geolocation Logic
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+            }, (err) => {
+                console.warn("Geolocation denied or unavailable", err);
+            });
+        }
+    }, []);
+
+    const getMapLink = (name) => {
+        const query = encodeURIComponent(name);
+        if (userLoc) {
+            return `https://www.google.com/maps/dir/?api=1&destination=${query}&destination_place_id=&origin=${userLoc.lat},${userLoc.lng}`;
+        }
+        return `https://www.google.com/maps/search/?api=1&query=${query}`;
+    };
 
     return (
-        <div className="fixed bottom-24 right-6 z-40">
+        <div className="fixed bottom-24 right-6 z-[100]">
             {/* FLOATING BUTTON */}
             <button 
                 onClick={() => setIsOpen(true)}
@@ -80,7 +99,7 @@ const FloatingHospital = () => {
             <div 
                 ref={dragRef}
                 style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-                className={`absolute bottom-0 right-0 w-80 bg-[#050d1a] border border-emerald-500/30 shadow-[0_0_40px_rgba(0,0,0,0.9)] rounded-2xl flex flex-col transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none hidden'}`}
+                className={`absolute bottom-0 right-0 w-80 bg-[#050d1a] border border-emerald-500/30 shadow-[0_0_40px_rgba(0,0,0,0.9)] rounded-2xl flex flex-col transition-opacity duration-300 z-50 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none hidden'}`}
             >
                 {/* HEADER (Draggable) */}
                 <div 
@@ -96,8 +115,11 @@ const FloatingHospital = () => {
                                 {isHindi ? 'निकटतम अस्पताल' : 'Nearby Hospitals'}
                             </h3>
                             <div className="flex items-center gap-1">
-                                <span className="text-[9px] text-emerald-200">
-                                    {isHindi ? 'स्थान सक्रिय (जीपीएस)' : 'Location Active (GPS)'}
+                                <span className={`text-[9px] font-bold uppercase ${userLoc ? 'text-emerald-400' : 'text-amber-400'}`}>
+                                    {userLoc 
+                                        ? (isHindi ? 'जीपीएस सक्रिय' : 'GPS Active') 
+                                        : (isHindi ? 'जीपीएस खोजा जा रहा है...' : 'Locating...')
+                                    }
                                 </span>
                             </div>
                         </div>
@@ -126,7 +148,12 @@ const FloatingHospital = () => {
                                     <FaPhoneAlt size={10} className="text-emerald-500" /> {hosp.phone}
                                 </a>
                                 <div className="w-px h-3 bg-white/10" />
-                                <a href={hosp.dir} className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-cyan-400 hover:text-cyan-300 transition-colors">
+                                <a 
+                                    href={getMapLink(hosp.name)} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-cyan-400 hover:text-cyan-300 transition-colors"
+                                >
                                     <FaDirections size={12} /> {isHindi ? 'दिशा' : 'Dir'}
                                 </a>
                             </div>

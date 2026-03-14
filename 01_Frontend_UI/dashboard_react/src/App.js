@@ -46,12 +46,13 @@ const Layout = () => {
                             <Outlet />
                             {/* FLOATING AI CHAT GLOBAL INJECTION */}
                             <ChatBot />
-                            {/* FLOATING HOSPITAL OVERLAY */}
-                            <FloatingHospital />
                         </Suspense>
                     </main>
                 </div>
             </div>
+
+            {/* FLOATING HOSPITAL OVERLAY (Layout Root) */}
+            <FloatingHospital />
         </div>
     );
 };
