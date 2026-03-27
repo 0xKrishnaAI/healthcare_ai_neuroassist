@@ -1,0 +1,30 @@
+# Frontend
+01_Frontend_UI/node_modules/
+01_Frontend_UI/dashboard_react/node_modules/
+01_Frontend_UI/dashboard_react/build/
+01_Frontend_UI/legacy_dashboard/
+
+# Python environments
+.venv/
+**/__pycache__/
+**/*.pyc
+
+# ML models and training data
+02_Deep_Learning_Models/
+
+# Docs
+03_Deployment_Docs/
+
+# Git
+.git/
+.gitignore
+
+# Local DB and uploads
+backend/neuroassist.db
+backend/uploads/
+backend/*.db
+
+# Misc
+*.txt
+README.md
+render.yaml

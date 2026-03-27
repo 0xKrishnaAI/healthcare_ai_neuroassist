@@ -8,11 +8,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies first (layer caching)
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy only the backend source code
-COPY . .
+COPY backend/ .
 
 # Create upload directories
 RUN mkdir -p uploads/mri_scans uploads/gradcam
